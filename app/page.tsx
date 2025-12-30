@@ -4,10 +4,15 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Calculator, TrendingUp, FileText, Calendar, Shield, Globe } from 'lucide-react';
 import Link from 'next/link';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination, Autoplay } from 'swiper';
 
 export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800">
+      {/* Navbar */}
       <nav className="border-b bg-white/80 backdrop-blur-sm dark:bg-slate-900/80">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
@@ -25,24 +30,44 @@ export default function Home() {
         </div>
       </nav>
 
+      {/* Intro Slider */}
       <main className="container mx-auto px-4 py-16">
-        <div className="text-center mb-16">
-          <h1 className="text-5xl font-bold text-slate-900 dark:text-white mb-4">
-            Calculate Your LLC Taxes Automatically
-          </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-300 mb-8 max-w-2xl mx-auto">
-            Professional tax calculation platform for Belarus LLC owners. Save time and money by automating your tax calculations during early business stages.
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Button size="lg" asChild>
-              <Link href="/sign-up">Start Free Trial</Link>
-            </Button>
-            <Button size="lg" variant="outline" asChild>
-              <Link href="#features">Learn More</Link>
-            </Button>
-          </div>
-        </div>
+        <Swiper
+          modules={[Pagination, Autoplay]}
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 5000 }}
+          loop={true}
+          className="mb-16"
+        >
+          <SwiperSlide>
+            <div className="h-96 flex flex-col items-center justify-center bg-emerald-100 dark:bg-emerald-900 rounded-lg">
+              <h2 className="text-4xl font-bold text-emerald-600 mb-4">Automated Tax Calculations</h2>
+              <p className="text-lg text-slate-700 dark:text-slate-300 text-center max-w-xl">
+                Calculate your LLC taxes accurately and effortlessly, saving time and money.
+              </p>
+            </div>
+          </SwiperSlide>
 
+          <SwiperSlide>
+            <div className="h-96 flex flex-col items-center justify-center bg-blue-100 dark:bg-blue-900 rounded-lg">
+              <h2 className="text-4xl font-bold text-blue-600 mb-4">Track Financials Easily</h2>
+              <p className="text-lg text-slate-700 dark:text-slate-300 text-center max-w-xl">
+                Monitor revenues, expenses, and payroll in one centralized platform.
+              </p>
+            </div>
+          </SwiperSlide>
+
+          <SwiperSlide>
+            <div className="h-96 flex flex-col items-center justify-center bg-purple-100 dark:bg-purple-900 rounded-lg">
+              <h2 className="text-4xl font-bold text-purple-600 mb-4">Export Reports Instantly</h2>
+              <p className="text-lg text-slate-700 dark:text-slate-300 text-center max-w-xl">
+                Generate detailed tax reports and export to PDF or CSV formats for compliance.
+              </p>
+            </div>
+          </SwiperSlide>
+        </Swiper>
+
+        {/* Feature Cards */}
         <div id="features" className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
           <Card className="border-2 hover:shadow-lg transition-shadow">
             <CardHeader>
@@ -105,7 +130,8 @@ export default function Home() {
           </Card>
         </div>
 
-        <Card className="border-2 border-amber-200 bg-amber-50 dark:bg-amber-950 dark:border-amber-800">
+        {/* Legal Disclaimer */}
+        <Card className="border-2 border-amber-200 bg-amber-50 dark:bg-amber-950 dark:border-amber-800 mb-16">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5" />
@@ -120,6 +146,7 @@ export default function Home() {
           </CardContent>
         </Card>
 
+        {/* How It Works */}
         <div className="mt-16 text-center">
           <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-8">
             How It Works
@@ -156,6 +183,7 @@ export default function Home() {
         </div>
       </main>
 
+      {/* Footer */}
       <footer className="border-t bg-white dark:bg-slate-900 mt-16">
         <div className="container mx-auto px-4 py-8 text-center text-slate-600 dark:text-slate-400">
           <p>&copy; 2025 Belarus Tax Calculator. All rights reserved.</p>
@@ -164,3 +192,4 @@ export default function Home() {
     </div>
   );
 }
+

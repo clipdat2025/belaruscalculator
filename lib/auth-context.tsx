@@ -95,25 +95,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error };
   };
 
-  const signUp = async (email: string, password: string, fullName: string) => {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
+ const signUp = async (email: string, password: string, fullName: string) => {
+  const { data, error } = await supabase.auth.signUp({
+    email,
+    password,
+  });
+
+  if (error) return { error };
+
+  // Insert profile in database (optional)
+  if (data.user) {
+    await supabase.from('profiles').upsert({
+      id: data.user.id,
+      full_name: fullName,
+      email: email,
+      role: 'user',
+      language: 'en',
     });
+  }
 
-    if (!error && data.user) {
-      await supabase.from('profiles').insert({
-        id: data.user.id,
-        full_name: fullName,
-        email: email,
-        role: 'user',
-        language: 'en',
-      });
+  // Redirect to /verify page instead of dashboard
+  window.location.href = '/verify';
 
-      router.push('/dashboard');
-    }
+  return { error: null };
 
-    return { error };
   };
 
   const signOut = async () => {

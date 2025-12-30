@@ -117,9 +117,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   // Redirect to /verify page instead of dashboard
   window.location.href = '/verify';
 
-  return { error: null };
-
-  };
+return { error: null };
+};
 
   const signOut = async () => {
     await supabase.auth.signOut();

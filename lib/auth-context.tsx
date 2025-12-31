@@ -38,6 +38,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
 
   useEffect(() => {
+    if (!supabase) {
+      setLoading(false);
+      return;
+    }
+
     const initAuth = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       setUser(session?.user ?? null);
@@ -71,6 +76,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const loadProfile = async (userId: string) => {
+    if (!supabase) return;
     const { data, error } = await supabase
       .from('profiles')
       .select('*')
@@ -83,6 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signIn = async (email: string, password: string) => {
+    if (!supabase) return { error: { message: 'Supabase not configured' } };
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -95,32 +102,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error };
   };
 
- const signUp = async (email: string, password: string, fullName: string) => {
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-  });
-
-  if (error) return { error };
-
-  // Insert profile in database (optional)
-  if (data.user) {
-    await supabase.from('profiles').upsert({
-      id: data.user.id,
-      full_name: fullName,
-      email: email,
-      role: 'user',
-      language: 'en',
+  const signUp = async (email: string, password: string, fullName: string) => {
+    if (!supabase) return { error: { message: 'Supabase not configured' } };
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
     });
-  }
 
-  // Redirect to /verify page instead of dashboard
-  window.location.href = '/verify';
+    if (error) return { error };
 
-return { error: null };
-};
+    if (data.user) {
+      await supabase.from('profiles').upsert({
+        id: data.user.id,
+        full_name: fullName,
+        email: email,
+        role: 'user',
+        language: 'en',
+      });
+    }
+
+    window.location.href = '/verify';
+
+    return { error: null };
+  };
 
   const signOut = async () => {
+    if (!supabase) return;
     await supabase.auth.signOut();
     setProfile(null);
     router.push('/');

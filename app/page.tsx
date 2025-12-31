@@ -5,9 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Calculator, TrendingUp, FileText, Calendar, Shield, Globe } from 'lucide-react';
 import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import { Pagination, Autoplay } from 'swiper';
+import { Pagination, Autoplay } from 'swiper/modules';
+import 'swiper/swiper-bundle.css';
 
 export default function Home() {
   return (

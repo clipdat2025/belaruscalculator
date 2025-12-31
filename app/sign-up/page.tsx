@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Calculator } from 'lucide-react';
+import { Calculator, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SignUp() {
@@ -38,27 +38,32 @@ export default function SignUp() {
 
     if (error) {
       setError(error.message);
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 mb-4">
-            <Calculator className="h-8 w-8 text-emerald-600" />
-            <span className="text-2xl font-bold text-slate-900 dark:text-white">Belarus Tax Calculator</span>
+    <div className="min-h-screen w-full bg-gray-50 dark:bg-black flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-md space-y-8">
+        <div className="text-center">
+          <Link href="/" className="inline-flex items-center gap-3 mb-4 transition-transform hover:scale-105">
+            <Calculator className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />
+            <span className="text-3xl font-bold tracking-tight text-gray-800 dark:text-gray-100">
+              Belarus Tax Calculator
+            </span>
           </Link>
+          <p className="text-gray-500 dark:text-gray-400">
+            Automate your tax calculations with precision.
+          </p>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle>Create an Account</CardTitle>
-            <CardDescription>Get started with automated tax calculations</CardDescription>
+        <Card className="bg-white/80 dark:bg-gray-950/50 backdrop-blur-sm border border-gray-200 dark:border-gray-800 shadow-xl">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-bold tracking-tight">Create an Account</CardTitle>
+            <CardDescription>Enter your details below to get started.</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="space-y-2">
                 <Label htmlFor="fullName">Full Name</Label>
                 <Input
@@ -68,18 +73,22 @@ export default function SignUp() {
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required
+                  disabled={loading}
+                  className="transition-colors"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">Email address</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="your@email.com"
+                  placeholder="john.doe@example.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  disabled={loading}
+                  className="transition-colors"
                 />
               </div>
 
@@ -92,6 +101,8 @@ export default function SignUp() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
+                  disabled={loading}
+                  className="transition-colors"
                 />
               </div>
 
@@ -104,22 +115,25 @@ export default function SignUp() {
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
+                  disabled={loading}
+                  className="transition-colors"
                 />
               </div>
 
               {error && (
-                <div className="p-3 text-sm text-red-600 bg-red-50 dark:bg-red-950 border border-red-200 dark:border-red-800 rounded-md">
+                <div className="p-3 text-sm text-center text-red-700 dark:text-red-400 bg-red-100 dark:bg-red-950/50 border border-red-300 dark:border-red-800 rounded-lg">
                   {error}
                 </div>
               )}
 
-              <Button type="submit" className="w-full" disabled={loading}>
-                {loading ? 'Creating account...' : 'Sign Up'}
+              <Button type="submit" className="w-full font-semibold transition-all" disabled={loading}>
+                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+                {loading ? 'Creating Account...' : 'Sign Up for Free'}
               </Button>
 
-              <div className="text-center text-sm text-slate-600 dark:text-slate-400">
+              <div className="text-center text-sm text-gray-600 dark:text-gray-400">
                 Already have an account?{' '}
-                <Link href="/sign-in" className="text-emerald-600 hover:underline">
+                <Link href="/sign-in" className="font-medium text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300 underline-offset-4 hover:underline transition-colors">
                   Sign in
                 </Link>
               </div>
